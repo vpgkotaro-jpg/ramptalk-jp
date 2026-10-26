@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RampTalk JP</title>
+<meta name="description" content="Listening and speaking practice for the ramp words used at Japanese airports, for foreign ground-handling staff and their supervisors.">
+<style>
+:root{
+  --bg:#f4f5f7; --card:#ffffff; --ink:#14181f; --sub:#5b6472; --line:#dde1e7;
+  --navy:#0f2a4a; --sign:#f5c400; --signink:#14181f; --ok:#1f7a4d; --okbg:#e6f4ec;
+  --bad:#b3261e; --badbg:#fbeaea; --chip:#eef1f5;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1116; --card:#171b22; --ink:#e8ebf0; --sub:#9aa3b2; --line:#2a303a;
+    --navy:#0b1f38; --chip:#222833; --okbg:#173326; --badbg:#3a1d1b; --ok:#5fd39a; --bad:#ff8a80;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1116; --card:#171b22; --ink:#e8ebf0; --sub:#9aa3b2; --line:#2a303a;
+  --navy:#0b1f38; --chip:#222833; --okbg:#173326; --badbg:#3a1d1b; --ok:#5fd39a; --bad:#ff8a80;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","Hiragino Sans","Noto Sans JP",sans-serif}
+header{background:var(--navy);color:#fff;padding:14px 16px 0}
+.brand{display:flex;align-items:center;gap:10px;max-width:880px;margin:0 auto}
+.logo{background:var(--sign);color:var(--signink);font-weight:800;border-radius:6px;padding:2px 8px;letter-spacing:.5px}
+.brand h1{font-size:18px;margin:0;font-weight:700}
+.brand small{color:#b9c6d8;display:block;font-size:12px}
+nav{display:flex;gap:4px;max-width:880px;margin:12px auto 0;overflow-x:auto}
+nav button{background:transparent;border:0;color:#cfd8e6;padding:10px 12px;font:inherit;font-size:14px;border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+nav button[aria-selected="true"]{color:#fff;border-bottom-color:var(--sign);font-weight:600}
+main{max-width:880px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.sp{flex:1}
+.muted{color:var(--sub);font-size:14px}
+.chip{background:var(--chip);border-radius:999px;padding:2px 10px;font-size:13px;color:var(--sub)}
+button.btn,label.btn{font:inherit;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:10px 14px;cursor:pointer}
+button.btn.primary{background:var(--sign);border-color:var(--sign);color:var(--signink);font-weight:700}
+button.btn:disabled{opacity:.5;cursor:default}
+.term{font-size:34px;font-weight:800;letter-spacing:.5px;margin:6px 0 0}
+.reading{color:var(--sub)}
+.choices{display:grid;gap:8px;margin-top:12px}
+.choices button{text-align:left;font:inherit;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.choices button.right{background:var(--okbg);border-color:var(--ok)}
+.choices button.wrong{background:var(--badbg);border-color:var(--bad)}
+.bar{height:8px;background:var(--chip);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--sign)}
+.feedback{margin-top:10px;font-size:15px}
+.feedback.ok{color:var(--ok)} .feedback.bad{color:var(--bad)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--sub);font-weight:600}
+input[type=text],select{font:inherit;padding:9px 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);width:100%}
+label.f{display:block;font-size:13px;color:var(--sub);margin-top:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat{font-size:28px;font-weight:800}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+.src{font-size:12px;color:var(--sub)}
+.hidden{display:none}
+.mic{display:inline-flex;align-items:center;gap:6px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--bad);display:inline-block;animation:p 1s infinite}
+@keyframes p{50%{opacity:.3}}
+.box{display:inline-block;min-width:22px;text-align:center;border-radius:6px;background:var(--chip);font-size:12px;padding:1px 6px}
+.printcard{display:none}
+@media (max-width:520px){.grid2{grid-template-columns:1fr}.term{font-size:28px}}
+@media print{
+  header,main>section,.noprint{display:none!important}
+  .printcard{display:block!important;color:#000}
+  .printcard table{font-size:12px} .printcard td,.printcard th{border-bottom:1px solid #999}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <span class="logo">RAMP</span>
+    <div><h1>RampTalk JP</h1><small>Ramp words used at Japanese airports, with sound</small></div>
+    <span class="sp"></span>
+    <select id="lang" aria-label="Meaning language" style="width:auto;background:#163a63;color:#fff;border-color:#2c5482">
+      <option value="en">Meaning: English</option>
+      <option value="ja">Meaning: やさしい日本語</option>
+    </select>
+  </div>
+  <nav role="tablist">
+    <button role="tab" data-tab="words" aria-selected="true">1. Words</button>
+    <button role="tab" data-tab="calls">2. Ramp calls</button>
+    <button role="tab" data-tab="sup">3. Supervisor</button>
+    <button role="tab" data-tab="why">Why this exists</button>
+  </nav>
+</header>
+
+<main>
+<!-- 1. WORD DRILL -->
+<section id="words">
+  <div class="card">
+    <div class="row">
+      <span class="muted">Learner</span>
+      <input id="learner" type="text" style="max-width:180px" placeholder="your name">
+      <span class="sp"></span>
+      <span class="chip" id="packname"></span>
+      <button class="btn" id="sendRes" title="Save your results as a file for your supervisor">Send my results</button>
+    </div>
+    <div class="bar" style="margin-top:12px"><i id="prog" style="width:0"></i></div>
+    <div class="row muted" style="margin-top:6px"><span id="progtxt"></span><span class="sp"></span><span id="boxinfo"></span></div>
+  </div>
+  <div class="card" id="drill">
+    <div class="row"><span class="chip">Listen, then choose the meaning</span><span class="sp"></span><label class="muted" style="font-size:13px"><input type="checkbox" id="ear"> Ear only</label><label class="muted" style="font-size:13px"><input type="checkbox" id="noise"> Apron noise</label><select id="noiseLvl" class="muted" style="font-size:13px" title="Noise level"><option value="0.085">light</option><option value="0.17">medium</option><option value="0.35">heavy</option></select><span class="box" id="curbox"></span></div>
+    <div id="tWrap"><div class="term" id="tTerm">—</div>
+    <div class="reading" id="tReading"></div></div>
+    <div id="tHidden" class="term muted hidden" style="font-size:20px">Listen first. The word appears after you answer.</div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn" id="play">▶ Play</button>
+      <button class="btn" id="slow">▶ Slow</button>
+      <button class="btn mic" id="say"><span>🎙 Say it</span></button>
+      <span class="muted" id="heard"></span>
+    </div>
+    <div class="choices" id="choices"></div>
+    <div class="feedback" id="fb"></div>
+    <div class="row" style="margin-top:12px"><span class="sp"></span><button class="btn primary" id="next" disabled>Next</button></div>
+  </div>
+  <div class="card hidden" id="done">
+    <h2 style="margin:0 0 6px">Set finished</h2>
+    <p id="doneTxt" class="muted"></p>
+    <button class="btn primary" id="again">Start the next 10</button>
+  </div>
+</section>
+
+<!-- 2. RAMP CALLS -->
+<section id="calls" class="hidden">
+  <div class="card">
+    <p class="muted" style="margin:0">A short call is spoken in Japanese. Choose what you should do. The sample calls below were written for this prototype; each airport replaces them with its own wording in the Supervisor tab.</p>
+  </div>
+  <div class="card">
+    <div class="row"><span class="chip" id="cNum"></span><span class="sp"></span><button class="btn" id="cPlay">▶ Play call</button><button class="btn" id="cShow">Show text</button></div>
+    <div class="term hidden" id="cText" style="font-size:24px"></div>
+    <div class="choices" id="cChoices"></div>
+    <div class="feedback" id="cFb"></div>
+    <div class="row" style="margin-top:12px"><span class="sp"></span><button class="btn primary" id="cNext" disabled>Next call</button></div>
+  </div>
+</section>
+
+<!-- 3. SUPERVISOR -->
+<section id="sup" class="hidden">
+  <div class="card">
+    <h2 style="margin:0 0 4px;font-size:18px">Where each learner is stuck</h2>
+    <p class="muted" style="margin:0 0 10px">Practice on this device, plus any result files learners sent you (Words tab → Send my results). Nothing is uploaded; files are merged here in the browser.</p>
+    <div class="row" style="margin-bottom:10px">
+      <label class="btn" style="display:inline-block">Import learner results<input id="impRes" type="file" accept=".json,application/json" multiple class="hidden"></label>
+      <button class="btn" id="demoCohort">Load demo cohort (synthetic)</button>
+      <button class="btn" id="clearCohort">Clear imported</button>
+    </div>
+    <div id="cohortMsg" class="muted" style="margin-bottom:8px"></div>
+    <div id="weak"></div>
+    <div id="weakAll" style="margin-top:10px"></div>
+  </div>
+  <div class="card">
+    <h2 style="margin:0 0 4px;font-size:18px">This airport's word pack</h2>
+    <p class="muted" style="margin:0 0 10px">Turn off words your station does not use, and add the ones it does. Export the pack as one file and send it to new staff before they arrive in Japan.</p>
+    <label class="f">Pack name</label>
+    <input id="pName" type="text">
+    <div class="grid2">
+      <div><label class="f">Term as spoken (katakana)</label><input id="nTerm" type="text" placeholder="e.g. トーイング"></div>
+      <div><label class="f">Reading (hiragana)</label><input id="nRead" type="text" placeholder="e.g. とーいんぐ"></div>
+      <div><label class="f">Meaning in English</label><input id="nEn" type="text" placeholder="e.g. towing the aircraft with a tug"></div>
+      <div><label class="f">Meaning in やさしい日本語</label><input id="nJa" type="text" placeholder="e.g. 車で飛行機を引っぱる"></div>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn primary" id="add">Add word</button>
+      <span class="sp"></span>
+      <button class="btn" id="exp">Export pack</button>
+      <label class="btn" style="display:inline-block">Import pack<input id="imp" type="file" accept=".json,application/json" class="hidden"></label>
+      <button class="btn" id="print">Print word card</button>
+      <button class="btn" id="reset">Reset demo</button>
+    </div>
+    <div id="pmsg" class="muted" style="margin-top:8px"></div>
+    <div style="overflow-x:auto;margin-top:10px"><table id="ptable"></table></div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section id="why" class="hidden">
+  <div class="card">
+    <h2 style="margin:0 0 8px;font-size:18px">The gap this tool targets</h2>
+    <div class="stats">
+      <div><div class="stat">3,066</div><div class="muted">people had passed both the aviation skills test and the Japanese test (end of June 2024)</div></div>
+      <div><div class="stat">959</div><div class="muted">were actually working in aviation under Specified Skilled Worker (i) status at the same date</div></div>
+      <div><div class="stat">77.8%</div><div class="muted">of small-airport operators who considered hiring but had not, named "worried about communication" as the main reason (medium airports: 50.0%)</div></div>
+    </div>
+    <p class="muted" style="font-size:13px">Small base: 20 operators were in the "considering, not yet hiring" group that answered this question, so the airport-size split rests on a handful of answers. It is a signal, not a measurement.</p>
+    <p class="src">Source: Japan Ministry of Land, Infrastructure, Transport and Tourism (MLIT), Civil Aviation Bureau, survey report on accepting Specified Skilled Workers in airport ground handling, digest, October 2024, pp. 2, 7, 10. https://www.mlit.go.jp/koku/content/001846768.pdf</p>
+  </div>
+  <div class="card">
+    <h2 style="margin:0 0 8px;font-size:18px">Why self-study, and why small airports</h2>
+    <p class="muted">The same MLIT report found that small and medium airports can usually hire only a few foreign staff at a time, so they cannot assign a dedicated trainer the way the large airports (Haneda, Narita, Kansai) can. Because ground-handling procedures differ by airline and airport, the report proposes reducing the Japanese-language part of the training load instead: online material that learners can study alone, and teaching material in やさしい日本語. RampTalk JP is built for that suggestion.</p>
+    <p class="src">Source: same report, p. 20.</p>
+  </div>
+  <div class="card">
+    <h2 style="margin:0 0 8px;font-size:18px">Where the starter words come from</h2>
+    <p class="muted">The 24 starter words, readings and Japanese meanings are taken from the ground-handling glossary in MLIT's employer manual for Specified Skilled Workers (pp. 19, 22). The manual notes that the many technical terms slowed on-the-job learning, that procedures differ by airline and airport, and recommends visual materials and self-study. English meanings were added for this prototype.</p>
+    <p class="src">Source: MLIT, "Manual for accepting and retaining Specified Skilled Workers in aviation (airport ground handling)", for employers. https://www.mlit.go.jp/koku/content/001846771.pdf</p>
+  </div>
+</section>
+
+<!-- print-only word card -->
+<div class="printcard" id="printcard"></div>
+</main>
+
+<script>
+(function(){
+"use strict";
+/* ---------- data ---------- */
+// Starter words: MLIT employer manual glossary (pp.19, 22). English meanings added by this project.
+var STARTER = [
+ {id:"bag",  term:"バゲージ (BAG)",            read:"ばげーじ",            ja:"手荷物",                          en:"checked baggage"},
+ {id:"bp",   term:"ビーピー (B/P)",            read:"びーぴー",            ja:"優先手荷物",                      en:"priority baggage"},
+ {id:"conx", term:"コネクションバゲージ (CONX)", read:"こねくしょんばげーじ", ja:"乗り継ぎ手荷物",                  en:"connecting (transfer) baggage"},
+ {id:"cgo",  term:"カーゴ (CGO)",              read:"かーご",              ja:"貨物",                            en:"cargo"},
+ {id:"pax",  term:"パックス (PAX)",            read:"ぱっくす",            ja:"お客様",                          en:"passengers"},
+ {id:"rem",  term:"リメイン",                  read:"りめいん",            ja:"残り",                            en:"the rest / what remains"},
+ {id:"ds",   term:"ドアサイド (D/S)",          read:"どあさいど",          ja:"カーゴドアの付近に置く手荷物（ベビーストローラー、車イスなど）", en:"items placed by the cargo door, such as strollers and wheelchairs"},
+ {id:"ld",   term:"ローディングシート (L/D)",   read:"ろーでぃんぐしーと",  ja:"搭載確認書",                      en:"loading sheet (load confirmation)"},
+ {id:"wch",  term:"ホイールチェアー (WCH)",     read:"ほいーるちぇあ",      ja:"車イス",                          en:"wheelchair"},
+ {id:"ship", term:"シップ",                    read:"しっぷ",              ja:"航空機",                          en:"the aircraft"},
+ {id:"crew", term:"クルー",                    read:"くるー",              ja:"キャプテン・コーパイ・CA",          en:"flight and cabin crew"},
+ {id:"show", term:"ショーアップ",              read:"しょーあっぷ",        ja:"出発クルーやPAXが到着",            en:"departing crew or passengers have arrived"},
+ {id:"chock",term:"チョーク",                  read:"ちょーく",            ja:"車輪止め",                        en:"wheel chocks"},
+ {id:"rwy",  term:"ランウェイ",                read:"らんうぇい",          ja:"航空機が離着陸を行うための滑走路",  en:"runway"},
+ {id:"tat",  term:"ターンアラウンドタイム",      read:"たーんあらうんどたいむ", ja:"飛行機が到着してから出発するまでの便間", en:"turnaround time between arrival and departure"},
+ {id:"spot", term:"スポット",                  read:"すぽっと",            ja:"駐機場",                          en:"parking stand for the aircraft"},
+ {id:"bi",   term:"ブロックインタイム (B/I)", read:"ぶろっくいんたいむ",        ja:"飛行機がスポットに入った時間",      en:"block-in time (aircraft arrived at the stand)"},
+ {id:"bo",   term:"ブロックアウトタイム (B/O)", read:"ぶろっくあうとたいむ",      ja:"飛行機がスポットを離れた時間",      en:"block-out time (aircraft left the stand)"},
+ {id:"all",  term:"オールステーション",         read:"おーるすてーしょん",  ja:"各部署",                          en:"all stations / every team"},
+ {id:"gas",  term:"ガスアップ",                read:"がすあっぷ",          ja:"燃料補給",                        en:"refuelling"},
+ {id:"anco", term:"アンコリ",                  read:"あんこり",            ja:"飛行機の衝突防止灯（アンチコリジョンライト）", en:"anti-collision beacon light"},
+ {id:"asn",  term:"アサイン",                  read:"あさいん",            ja:"自分の役割ポジション",              en:"your assigned position"},
+ {id:"mnt",  term:"メンテナンス",              read:"めんてなんす",        ja:"修理",                            en:"maintenance / repair"},
+ {id:"brd",  term:"ボーディング",              read:"ぼーでぃんぐ",        ja:"搭乗",                            en:"boarding"}
+];
+// Sample calls written for this prototype (not taken from any airline's procedures).
+var CALLS = [
+ {say:"アンコリ消灯。チョーク、かけてください。", text:"アンコリ消灯。チョーク、かけてください。",
+  opts:[["Put the wheel chocks on now.","The beacon is off, so the crew asks you to place the chocks."],["Stay away from the aircraft.",null],["Remove the wheel chocks.",null]]},
+ {say:"アンコリ点灯中です。まだ近づかないでください。", text:"アンコリ点灯中です。まだ近づかないでください。",
+  opts:[["Wait. Do not approach the aircraft yet.","The beacon is still on."],["Start unloading baggage.",null],["Bring the wheelchair to the door.",null]]},
+ {say:"ドアサイドの車イス、先に降ろしてください。", text:"ドアサイドの車イス、先に降ろしてください。",
+  opts:[["Unload the wheelchair at the door side first.","ドアサイド = items placed by the cargo door."],["Load the wheelchair last.",null],["Take the wheelchair to the gate counter.",null]]},
+ {say:"コネクションバゲージは、別のカートに分けてください。", text:"コネクションバゲージは、別のカートに分けてください。",
+  opts:[["Put the transfer bags on a separate cart.","コネクションバゲージ = connecting baggage."],["Put all bags on one cart.",null],["Send the cargo to the warehouse.",null]]},
+ {say:"ビーピーは最後に積んでください。", text:"B/Pは最後に積んでください。",
+  opts:[["Load the priority bags last.","B/P = priority baggage."],["Load the priority bags first.",null],["Do not load the priority bags.",null]]},
+ {say:"リメイン、何個ですか。", text:"リメイン、何個ですか？",
+  opts:[["Tell them how many pieces are left.","リメイン = what remains."],["Tell them the spot number.",null],["Tell them the departure time.",null]]},
+ {say:"スポット変更です。十二番に回ってください。", text:"スポット変更です。12番に回ってください。",
+  opts:[["Go to stand number 12 instead.","スポット = aircraft parking stand."],["Go to runway 12.",null],["Wait for 12 minutes.",null]]},
+ {say:"クルー、ショーアップしました。", text:"クルー、ショーアップしました。",
+  opts:[["The crew has arrived.","ショーアップ = crew or passengers have arrived."],["The crew has left the aircraft.",null],["The crew asked for fuel.",null]]}
+];
+
+/* ---------- storage (safe) ---------- */
+var KEY = "ramptalk.v1";
+function load(){ try{ var s = localStorage.getItem(KEY); return s ? JSON.parse(s) : null; }catch(e){ return null; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+function fresh(){
+  return {lang:"en", ear:true, learner:"", pack:{name:"Starter pack (MLIT glossary)", words:STARTER.map(function(w){return Object.assign({on:true},w);})},
+          boxes:{}, log:[], cohort:[]};
+}
+var state = load() || fresh();
+if (!Array.isArray(state.cohort)) state.cohort = [];
+
+/* ---------- helpers ---------- */
+function $(id){ return document.getElementById(id); }
+function words(){ return state.pack.words.filter(function(w){return w.on;}); }
+function meaning(w){ return state.lang === "ja" ? w.ja : w.en; }
+function shuffle(a){ a = a.slice(); for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function boxOf(id){ return state.boxes[id] || 1; }
+function toHira(s){ return s.replace(/[ァ-ヶ]/g, function(c){ return String.fromCharCode(c.charCodeAt(0)-0x60); }); }
+function norm(s){ return toHira(String(s||"")).replace(/[\s・、。,.\-()（）\/A-Za-z]/g,""); }
+// Text handed to the voice: the katakana term without the written abbreviation.
+// Measured: the ja-JP voice recovers 19 of 24 words from katakana vs 14 of 24 from hiragana (proof/audio_check_report.txt).
+function spoken(w){ return String(w.term).replace(/\s*\(.*\)\s*$/,"") || w.read; }
+function abbr(w){ var m = /\(([^)]+)\)/.exec(w.term); return m ? m[1].replace(/[^A-Za-z]/g,"").toUpperCase() : ""; }
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];}); }
+
+/* ---------- speech ---------- */
+var jaVoice = null;
+function pickVoice(){
+  if (!("speechSynthesis" in window)) return;
+  var v = speechSynthesis.getVoices().filter(function(v){ return /^ja/i.test(v.lang); });
+  jaVoice = v[0] || null;
+}
+if ("speechSynthesis" in window){ pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function speak(text, rate){
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(text);
+  u.lang = "ja-JP"; u.rate = rate || 1; if (jaVoice) u.voice = jaVoice;
+  if ($("noise").checked){ noiseOn(); u.onend = u.onerror = noiseOff; setTimeout(noiseOff, 8000); }
+  speechSynthesis.speak(u);
+}
+// Apron noise: low rumble (brown noise) under the voice, so learners practise hearing words over engine and GPU noise.
+// Levels keep the ratios of the noise sweep (amplitude 0.06 / 0.12 / 0.25, about +13 / +7 / 0 dB SNR with the Kyoko voice).
+// Light is the default: a machine listener still recovered 17/24 words there. Browser voice volume varies, so levels are relative.
+var actx = null, nsrc = null;
+function noiseOn(){
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    noiseOff();
+    var len = actx.sampleRate * 8, buf = actx.createBuffer(1, len, actx.sampleRate), d = buf.getChannelData(0), last = 0;
+    for (var i=0;i<len;i++){ var w = Math.random()*2-1; last = (last + 0.02*w)/1.02; d[i] = last*3.5; }
+    var g = actx.createGain(); g.gain.value = parseFloat($("noiseLvl").value) || 0.085;
+    nsrc = actx.createBufferSource(); nsrc.buffer = buf; nsrc.connect(g); g.connect(actx.destination); nsrc.start();
+  } catch(e){ nsrc = null; }
+}
+function noiseOff(){ if (nsrc){ try{ nsrc.stop(); }catch(e){} nsrc = null; } }
+var Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+/* ---------- tabs ---------- */
+document.querySelectorAll("nav button").forEach(function(b){
+  b.addEventListener("click", function(){
+    document.querySelectorAll("nav button").forEach(function(x){ x.setAttribute("aria-selected", x===b ? "true":"false"); });
+    ["words","calls","sup","why"].forEach(function(t){ $(t).classList.toggle("hidden", t!==b.dataset.tab); });
+    if (b.dataset.tab==="sup") renderSup();
+    if (b.dataset.tab==="calls" && cIdx<0) nextCall();
+  });
+});
+$("lang").value = state.lang;
+$("ear").checked = state.ear !== false;
+$("ear").addEventListener("change", function(){ state.ear = this.checked; save(); if (!answered) renderCard(); });
+$("lang").addEventListener("change", function(){ state.lang = this.value; save(); renderCard(); renderSup(); });
+$("learner").value = state.learner;
+$("learner").addEventListener("change", function(){ state.learner = this.value.trim(); save(); });
+
+/* ---------- word drill (Leitner boxes 1-5) ---------- */
+var set = [], idx = 0, answered = false, right = 0;
+function newSet(){
+  var pool = shuffle(words()).sort(function(a,b){ return boxOf(a.id)-boxOf(b.id); });
+  set = pool.slice(0, Math.min(10, pool.length)); idx = 0; right = 0;
+  $("done").classList.add("hidden"); $("drill").classList.remove("hidden");
+  renderCard();
+}
+function renderTop(){
+  var ws = words(), mastered = ws.filter(function(w){ return boxOf(w.id)>=4; }).length;
+  $("packname").textContent = state.pack.name + " · " + ws.length + " words";
+  $("prog").style.width = (set.length ? (idx/set.length*100) : 0) + "%";
+  $("progtxt").textContent = "Card " + Math.min(idx+1,set.length) + " of " + set.length;
+  $("boxinfo").textContent = mastered + " of " + ws.length + " words in box 4–5";
+}
+function renderCard(){
+  renderTop();
+  if (!set.length) return;
+  var w = set[idx]; answered = false;
+  $("tTerm").textContent = w.term; $("tReading").textContent = w.read;
+  var hide = state.ear !== false; $("tWrap").classList.toggle("hidden", hide); $("tHidden").classList.toggle("hidden", !hide);
+  $("curbox").textContent = "box " + boxOf(w.id);
+  $("fb").textContent = ""; $("fb").className = "feedback"; $("heard").textContent = "";
+  $("next").disabled = true;
+  var others = shuffle(words().filter(function(x){ return x.id!==w.id; })).slice(0,3);
+  var opts = shuffle([w].concat(others));
+  var box = $("choices"); box.innerHTML = "";
+  opts.forEach(function(o){
+    var b = document.createElement("button"); b.textContent = meaning(o);
+    b.addEventListener("click", function(){ answer(o.id===w.id, b, w); });
+    box.appendChild(b);
+  });
+  speak(spoken(w));
+}
+function answer(ok, btn, w){
+  if (answered) return; answered = true;
+  if (ok){ right++; state.boxes[w.id] = Math.min(5, boxOf(w.id)+1); btn.classList.add("right");
+    $("fb").textContent = "Correct."; $("fb").className = "feedback ok"; }
+  else { state.boxes[w.id] = 1; btn.classList.add("wrong");
+    Array.prototype.forEach.call($("choices").children, function(b){ if (b.textContent===meaning(w)) b.classList.add("right"); });
+    $("fb").textContent = "Not this one. " + w.term + " = " + meaning(w) + ". It will come back sooner."; $("fb").className = "feedback bad"; }
+  state.log.push({who: state.learner || "(no name)", id:w.id, ok:ok, t:Date.now()});
+  if (state.log.length > 2000) state.log = state.log.slice(-2000);
+  save(); $("curbox").textContent = "box " + boxOf(w.id); $("next").disabled = false;
+  $("tWrap").classList.remove("hidden"); $("tHidden").classList.add("hidden");
+}
+$("next").addEventListener("click", function(){
+  idx++;
+  if (idx >= set.length){ renderTop(); $("drill").classList.add("hidden"); $("done").classList.remove("hidden");
+    $("doneTxt").textContent = right + " of " + set.length + " correct. Words you missed went back to box 1 and will appear in the next set."; return; }
+  renderCard();
+});
+$("again").addEventListener("click", newSet);
+$("play").addEventListener("click", function(){ if (set[idx]) speak(spoken(set[idx]), 1); });
+$("slow").addEventListener("click", function(){ if (set[idx]) speak(spoken(set[idx]), 0.6); });
+$("say").addEventListener("click", function(){
+  var w = set[idx]; if (!w) return;
+  if (!Rec){ $("heard").textContent = "Speech recognition is not available in this browser (use Chrome)."; return; }
+  var r = new Rec(); r.lang = "ja-JP"; r.interimResults = false; r.maxAlternatives = 5;
+  $("heard").innerHTML = '<span class="dot"></span> listening…';
+  r.onresult = function(e){
+    var alts = Array.prototype.map.call(e.results[0], function(a){ return a.transcript; });
+    var target = norm(w.read), ab = abbr(w), hit = alts.some(function(a){ var n = norm(a); return n.indexOf(target)>=0 || target.indexOf(n)>=0 && n.length>=2 || (ab && String(a).toUpperCase().replace(/[^A-Z]/g,"") === ab); });
+    $("heard").textContent = (hit ? "✓ Heard: " : "✗ Heard: ") + alts[0];
+    state.log.push({who: state.learner || "(no name)", id:w.id, ok:hit, say:true, t:Date.now()}); save();
+  };
+  r.onerror = function(e){ $("heard").textContent = "Could not listen (" + e.error + ")."; };
+  r.start();
+});
+
+/* ---------- ramp calls ---------- */
+var cIdx = -1, cOrder = [], cAns = false;
+function nextCall(){
+  if (!cOrder.length) cOrder = shuffle(CALLS.map(function(_,i){return i;}));
+  cIdx = cOrder.shift(); cAns = false;
+  var c = CALLS[cIdx];
+  $("cNum").textContent = "Call " + (CALLS.length - cOrder.length) + " of " + CALLS.length;
+  $("cText").textContent = c.text; $("cText").classList.add("hidden");
+  $("cFb").textContent = ""; $("cFb").className = "feedback"; $("cNext").disabled = true;
+  var box = $("cChoices"); box.innerHTML = "";
+  shuffle(c.opts.map(function(o,i){ return {t:o[0], why:o[1], ok:i===0}; })).forEach(function(o){
+    var b = document.createElement("button"); b.textContent = o.t;
+    b.addEventListener("click", function(){
+      if (cAns) return; cAns = true;
+      b.classList.add(o.ok ? "right":"wrong");
+      if (!o.ok) Array.prototype.forEach.call(box.children, function(x){ if (x.textContent===c.opts[0][0]) x.classList.add("right"); });
+      $("cFb").textContent = (o.ok ? "Correct. " : "Not this one. ") + (c.opts[0][1]||"");
+      $("cFb").className = "feedback " + (o.ok ? "ok":"bad");
+      $("cText").classList.remove("hidden"); $("cNext").disabled = false;
+      state.log.push({who: state.learner || "(no name)", id:"call"+cIdx, ok:o.ok, t:Date.now()}); save();
+    });
+    box.appendChild(b);
+  });
+  speak(c.say);
+}
+$("cPlay").addEventListener("click", function(){ if (cIdx>=0) speak(CALLS[cIdx].say); });
+$("cShow").addEventListener("click", function(){ $("cText").classList.toggle("hidden"); });
+$("cNext").addEventListener("click", nextCall);
+
+/* ---------- supervisor ---------- */
+function renderSup(){
+  $("pName").value = state.pack.name;
+  // weak words per learner
+  var byWho = {}, allMiss = {}, cohort = state.cohort || [];
+  state.log.concat(cohort).forEach(function(l){ if (l.id.indexOf("call")===0) return;
+    if (!l.ok) allMiss[l.id] = (allMiss[l.id]||0)+1;
+    var p = byWho[l.who] = byWho[l.who] || {n:0, ok:0, miss:{}};
+    p.n++; if (l.ok) p.ok++; else p.miss[l.id] = (p.miss[l.id]||0)+1; });
+  var names = Object.keys(byWho);
+  if (!names.length){ $("weak").innerHTML = '<p class="muted">No practice yet. Do a set in the Words tab first.</p>'; }
+  else {
+    var h = "<table><tr><th>Learner</th><th>Answers</th><th>Correct</th><th>Most missed</th></tr>";
+    names.forEach(function(n){ var p = byWho[n];
+      var top = Object.keys(p.miss).sort(function(a,b){return p.miss[b]-p.miss[a];}).slice(0,3).map(function(id){
+        var w = state.pack.words.filter(function(x){return x.id===id;})[0]; return w ? esc(w.term)+" ×"+p.miss[id] : ""; }).join("<br>");
+      h += "<tr><td>"+esc(n)+"</td><td>"+p.n+"</td><td>"+Math.round(p.ok/p.n*100)+"%</td><td>"+(top||"—")+"</td></tr>"; });
+    $("weak").innerHTML = h + "</table>";
+  }
+  var worst = Object.keys(allMiss).sort(function(a,b){return allMiss[b]-allMiss[a];}).slice(0,5).map(function(id){
+    var w = state.pack.words.filter(function(x){return x.id===id;})[0]; return w ? esc(w.term)+" ("+allMiss[id]+" misses)" : ""; }).filter(Boolean);
+  $("weakAll").innerHTML = worst.length && names.length > 1 ? "<b>Missed most across all learners:</b> " + worst.join(" · ") + '<div class="muted">Use this to decide what to explain at the next briefing.</div>' : "";
+  // pack table
+  var t = "<tr><th>Use</th><th>Term</th><th>Meaning</th><th>Box</th></tr>";
+  state.pack.words.forEach(function(w,i){
+    t += '<tr><td><input type="checkbox" data-i="'+i+'" '+(w.on?"checked":"")+' aria-label="use '+esc(w.term)+'"></td><td>'+esc(w.term)+'<div class="muted">'+esc(w.read)+'</div></td><td>'+esc(meaning(w))+'</td><td><span class="box">'+boxOf(w.id)+'</span></td></tr>'; });
+  $("ptable").innerHTML = t;
+  $("ptable").querySelectorAll("input[type=checkbox]").forEach(function(cb){
+    cb.addEventListener("change", function(){ state.pack.words[+cb.dataset.i].on = cb.checked; save(); renderTop(); });
+  });
+}
+$("pName").addEventListener("change", function(){ state.pack.name = this.value.trim() || "Word pack"; save(); renderTop(); });
+$("add").addEventListener("click", function(){
+  var term = $("nTerm").value.trim(), read = $("nRead").value.trim(), en = $("nEn").value.trim(), ja = $("nJa").value.trim();
+  if (!term || !read || !(en||ja)){ $("pmsg").textContent = "Fill in the term, the reading and at least one meaning."; return; }
+  state.pack.words.push({id:"c"+Date.now(), term:term, read:toHira(read), en:en||ja, ja:ja||en, on:true});
+  ["nTerm","nRead","nEn","nJa"].forEach(function(k){ $(k).value=""; });
+  save(); renderSup(); renderTop(); $("pmsg").textContent = "Added. It will appear in the next set.";
+});
+$("exp").addEventListener("click", function(){
+  var blob = new Blob([JSON.stringify({format:"ramptalk-pack-1", name:state.pack.name, words:state.pack.words}, null, 1)], {type:"application/json"});
+  var a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = state.pack.name.replace(/[^\w\-]+/g,"_") + ".json"; a.click();
+  $("pmsg").textContent = "Pack exported. Send this file to new staff; they open it with Import pack.";
+});
+$("imp").addEventListener("change", function(){
+  var f = this.files[0]; if (!f) return;
+  f.text().then(function(txt){
+    var p = JSON.parse(txt);
+    if (p.format!=="ramptalk-pack-1" || !Array.isArray(p.words)) throw new Error("bad");
+    state.pack = {name:p.name||"Imported pack", words:p.words}; save(); renderSup(); newSet();
+    $("pmsg").textContent = "Imported " + p.words.length + " words.";
+  }).catch(function(){ $("pmsg").textContent = "That file is not a RampTalk pack."; });
+});
+$("sendRes").addEventListener("click", function(){
+  var who = state.learner || "(no name)";
+  var mine = state.log.filter(function(l){ return l.who === who; });
+  var blob = new Blob([JSON.stringify({format:"ramptalk-results-1", learner:who, pack:state.pack.name, sent:new Date().toISOString(), log:mine})], {type:"application/json"});
+  var a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "results_" + who.replace(/[^\w\-]+/g,"_") + ".json"; a.click();
+});
+function addCohort(entries){
+  var seen = {}; state.cohort.forEach(function(l){ seen[l.who+"|"+l.t+"|"+l.id] = 1; });
+  var n = 0; entries.forEach(function(l){ var k = l.who+"|"+l.t+"|"+l.id; if (!seen[k]){ seen[k] = 1; state.cohort.push(l); n++; } });
+  if (state.cohort.length > 20000) state.cohort = state.cohort.slice(-20000);
+  save(); renderSup(); return n;
+}
+$("impRes").addEventListener("change", function(){
+  var files = Array.prototype.slice.call(this.files), added = 0, bad = 0;
+  Promise.all(files.map(function(f){ return f.text().then(function(txt){
+    var r = JSON.parse(txt);
+    if (r.format!=="ramptalk-results-1" || !Array.isArray(r.log)) throw new Error("bad");
+    added += addCohort(r.log.map(function(l){ return {who:r.learner, id:String(l.id), ok:!!l.ok, t:+l.t}; }));
+  }).catch(function(){ bad++; }); })).then(function(){
+    $("cohortMsg").textContent = "Merged " + added + " answers from " + (files.length-bad) + " file(s)." + (bad ? " " + bad + " file(s) were not RampTalk results." : "");
+  });
+  this.value = "";
+});
+$("demoCohort").addEventListener("click", function(){
+  // Synthetic data for demonstration only: three made-up learners with random answers.
+  var ids = words().map(function(w){ return w.id; }), t = Date.now() - 86400000, out = [];
+  [["Demo A (synthetic)",0.85],["Demo B (synthetic)",0.6],["Demo C (synthetic)",0.45]].forEach(function(p){
+    for (var i=0;i<40;i++){ var id = ids[Math.floor(Math.random()*ids.length)]; out.push({who:p[0], id:id, ok:Math.random()<p[1], t:t+i*1000+p[1]*1e6}); }
+  });
+  var n = addCohort(out); $("cohortMsg").textContent = "Loaded " + n + " synthetic answers from 3 made-up learners. These are not real users.";
+});
+$("clearCohort").addEventListener("click", function(){ state.cohort = []; save(); renderSup(); $("cohortMsg").textContent = "Imported results cleared."; });
+$("print").addEventListener("click", function(){
+  var h = "<h2>"+esc(state.pack.name)+"</h2><table><tr><th>Term</th><th>Reading</th><th>English</th><th>やさしい日本語</th></tr>";
+  words().forEach(function(w){ h += "<tr><td>"+esc(w.term)+"</td><td>"+esc(w.read)+"</td><td>"+esc(w.en)+"</td><td>"+esc(w.ja)+"</td></tr>"; });
+  $("printcard").innerHTML = h + "</table><p style='font-size:10px'>Starter words: MLIT ground-handling glossary.</p>";
+  window.print();
+});
+$("reset").addEventListener("click", function(){ state = fresh(); save(); $("lang").value="en"; $("learner").value=""; renderSup(); newSet(); $("pmsg").textContent="Demo reset."; });
+
+newSet();
+})();
+</script>
+</body>
+</html>

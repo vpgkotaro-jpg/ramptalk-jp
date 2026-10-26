@@ -1,0 +1,105 @@
+RampTalk JP audio round-trip check
+Run: 2026-10-26T21:58:02  Voice: macOS Kyoko (ja-JP)  Recogniser: whisper.cpp large-v3-turbo (offline)
+Method: speak the text the app speaks (v1 spoke the hiragana reading; v2, the current version, speaks the katakana term) -> transcribe -> apply the app's own matching rule. Noise: brown noise, amplitude 0.25, mixed at equal gain.
+Limits: a machine listener, not people; one synthetic voice; says nothing about learners' own pronunciation.
+
+v1 hiragana, clean: words recovered 14/24, key word recovered in calls 8/8
+v2 katakana, clean: words recovered 19/24, key word recovered in calls 8/8
+v2 katakana, noise: words recovered 6/24, key word recovered in calls 5/8
+
+[OK] v1 hiragana, clean   word バゲージ (BAG)  ->  heard: バゲージ
+[MISS] v1 hiragana, clean   word ビーピー (B/P)  ->  heard: B.B.
+[MISS] v1 hiragana, clean   word コネクションバゲージ (CONX)  ->  heard: コネクションはゲージ
+[OK] v1 hiragana, clean   word カーゴ (CGO)  ->  heard: カーゴ
+[MISS] v1 hiragana, clean   word パックス (PAX)  ->  heard: バックス
+[OK] v1 hiragana, clean   word リメイン  ->  heard: リメイン
+[OK] v1 hiragana, clean   word ドアサイド (D/S)  ->  heard: ドアサイド
+[MISS] v1 hiragana, clean   word ローディングシート (L/D)  ->  heard: ローデイグシート
+[MISS] v1 hiragana, clean   word ホイールチェアー (WCH)  ->  heard: ホイール知恵は
+[MISS] v1 hiragana, clean   word シップ  ->  heard: シック。
+[OK] v1 hiragana, clean   word クルー  ->  heard: クルー
+[OK] v1 hiragana, clean   word ショーアップ  ->  heard: ショーアップ
+[OK] v1 hiragana, clean   word チョーク  ->  heard: チョーク
+[MISS] v1 hiragana, clean   word ランウェイ  ->  heard: ラムエイ
+[MISS] v1 hiragana, clean   word ターンアラウンドタイム  ->  heard: ターンハラウンドタイム
+[OK] v1 hiragana, clean   word スポット  ->  heard: スポット
+[MISS] v1 hiragana, clean   word ブロックインタイム (B/I)  ->  heard: ブログインタイム
+[OK] v1 hiragana, clean   word ブロックアウトタイム (B/O)  ->  heard: ブロックアウトタイム
+[OK] v1 hiragana, clean   word オールステーション  ->  heard: オールステーション
+[OK] v1 hiragana, clean   word ガスアップ  ->  heard: ガスアップ
+[OK] v1 hiragana, clean   word アンコリ  ->  heard: アンコリ
+[OK] v1 hiragana, clean   word アサイン  ->  heard: アサイン
+[OK] v1 hiragana, clean   word メンテナンス  ->  heard: メンテナンス
+[MISS] v1 hiragana, clean   word ボーディング  ->  heard: ボーデイウル。
+[OK] v1 hiragana, clean   call アンコリ消灯。チョーク、かけてください。  [key: アンコリ]  ->  heard: アンコリショートをチョークかけてください。
+[OK] v1 hiragana, clean   call アンコリ点灯中です。まだ近づかないでください。  [key: アンコリ]  ->  heard: アンコリ転倒中です。まだ近づかないでください。
+[OK] v1 hiragana, clean   call ドアサイドの車イス、先に降ろしてください。  [key: ドアサイド]  ->  heard: ドアサイドの車椅子、先に下ろしてください。
+[OK] v1 hiragana, clean   call コネクションバゲージは、別のカートに分けてください。  [key: コネクションバゲージ]  ->  heard: コネクションバゲージは別のカートに分けてください。
+[OK] v1 hiragana, clean   call B/Pは最後に積んでください。  [key: ビーピー]  ->  heard: BPは最後に積んでください。
+[OK] v1 hiragana, clean   call リメイン、何個ですか？  [key: リメイン]  ->  heard: リメイン何個ですか。
+[OK] v1 hiragana, clean   call スポット変更です。12番に回ってください。  [key: スポット]  ->  heard: スポット変更です。12番に回ってください。
+[OK] v1 hiragana, clean   call クルー、ショーアップしました。  [key: ショーアップ]  ->  heard: クルーショーアップしました
+[OK] v2 katakana, clean   word バゲージ (BAG)  ->  heard: バゲージ
+[MISS] v2 katakana, clean   word ビーピー (B/P)  ->  heard: B.B.
+[OK] v2 katakana, clean   word コネクションバゲージ (CONX)  ->  heard: コネクションバゲージ
+[OK] v2 katakana, clean   word カーゴ (CGO)  ->  heard: カーゴ
+[MISS] v2 katakana, clean   word パックス (PAX)  ->  heard: バックス
+[OK] v2 katakana, clean   word リメイン  ->  heard: リメイン
+[OK] v2 katakana, clean   word ドアサイド (D/S)  ->  heard: ドアサイド
+[OK] v2 katakana, clean   word ローディングシート (L/D)  ->  heard: ローディングシート
+[OK] v2 katakana, clean   word ホイールチェアー (WCH)  ->  heard: ホイールチェアー。
+[MISS] v2 katakana, clean   word シップ  ->  heard: シック
+[OK] v2 katakana, clean   word クルー  ->  heard: くるー
+[OK] v2 katakana, clean   word ショーアップ  ->  heard: ショーアップ
+[OK] v2 katakana, clean   word チョーク  ->  heard: チョーク
+[OK] v2 katakana, clean   word ランウェイ  ->  heard: ランウェイ
+[MISS] v2 katakana, clean   word ターンアラウンドタイム  ->  heard: 動画ラウンドタイム
+[MISS] v2 katakana, clean   word スポット  ->  heard: ストッド
+[OK] v2 katakana, clean   word ブロックインタイム (B/I)  ->  heard: ブロックインタイム
+[OK] v2 katakana, clean   word ブロックアウトタイム (B/O)  ->  heard: ブロックアウトタイム
+[OK] v2 katakana, clean   word オールステーション  ->  heard: オールステーション
+[OK] v2 katakana, clean   word ガスアップ  ->  heard: ガスアップ
+[OK] v2 katakana, clean   word アンコリ  ->  heard: アンコリ
+[OK] v2 katakana, clean   word アサイン  ->  heard: アサイン
+[OK] v2 katakana, clean   word メンテナンス  ->  heard: メンテナンス
+[OK] v2 katakana, clean   word ボーディング  ->  heard: ボーディング
+[OK] v2 katakana, clean   call アンコリ消灯。チョーク、かけてください。  [key: アンコリ]  ->  heard: アンコリショートをチョークかけてください。
+[OK] v2 katakana, clean   call アンコリ点灯中です。まだ近づかないでください。  [key: アンコリ]  ->  heard: アンコリ転倒中です。まだ近づかないでください。
+[OK] v2 katakana, clean   call ドアサイドの車イス、先に降ろしてください。  [key: ドアサイド]  ->  heard: ドアサイドの車椅子、先に下ろしてください。
+[OK] v2 katakana, clean   call コネクションバゲージは、別のカートに分けてください。  [key: コネクションバゲージ]  ->  heard: コネクションバゲージは別のカートに分けてください。
+[OK] v2 katakana, clean   call B/Pは最後に積んでください。  [key: ビーピー]  ->  heard: BPは最後に積んでください。
+[OK] v2 katakana, clean   call リメイン、何個ですか？  [key: リメイン]  ->  heard: リメイン何個ですか。
+[OK] v2 katakana, clean   call スポット変更です。12番に回ってください。  [key: スポット]  ->  heard: スポット変更です。12番に回ってください。
+[OK] v2 katakana, clean   call クルー、ショーアップしました。  [key: ショーアップ]  ->  heard: クルーショーアップしました
+[OK] v2 katakana, noise   word バゲージ (BAG)  ->  heard: バゲージ
+[MISS] v2 katakana, noise   word ビーピー (B/P)  ->  heard: TV
+[MISS] v2 katakana, noise   word コネクションバゲージ (CONX)  ->  heard: コネクションマネージ
+[MISS] v2 katakana, noise   word カーゴ (CGO)  ->  heard: うん
+[MISS] v2 katakana, noise   word パックス (PAX)  ->  heard: なんてシリー
+[OK] v2 katakana, noise   word リメイン  ->  heard: リメイン
+[MISS] v2 katakana, noise   word ドアサイド (D/S)  ->  heard: 弱サイド
+[OK] v2 katakana, noise   word ローディングシート (L/D)  ->  heard: ローディングシート
+[MISS] v2 katakana, noise   word ホイールチェアー (WCH)  ->  heard: おいいるちな
+[MISS] v2 katakana, noise   word シップ  ->  heard: はい
+[MISS] v2 katakana, noise   word クルー  ->  heard: いいね
+[MISS] v2 katakana, noise   word ショーアップ  ->  heard: 正月
+[MISS] v2 katakana, noise   word チョーク  ->  heard: 超OK
+[MISS] v2 katakana, noise   word ランウェイ  ->  heard: ランブリー
+[MISS] v2 katakana, noise   word ターンアラウンドタイム  ->  heard: 動画ラウンドタイム
+[MISS] v2 katakana, noise   word スポット  ->  heard: どっどっ
+[MISS] v2 katakana, noise   word ブロックインタイム (B/I)  ->  heard: ブロックピンタイム
+[MISS] v2 katakana, noise   word ブロックアウトタイム (B/O)  ->  heard: ブロック&ダイム
+[MISS] v2 katakana, noise   word オールステーション  ->  heard: ボールステーション
+[MISS] v2 katakana, noise   word ガスアップ  ->  heard: なしなきゃ
+[MISS] v2 katakana, noise   word アンコリ  ->  heard: 韓国
+[OK] v2 katakana, noise   word アサイン  ->  heard: アサイン
+[OK] v2 katakana, noise   word メンテナンス  ->  heard: メンテナンス
+[OK] v2 katakana, noise   word ボーディング  ->  heard: ボーディング
+[OK] v2 katakana, noise   call アンコリ消灯。チョーク、かけてください。  [key: アンコリ]  ->  heard: アンコリ消灯、チョーク、かけてください。
+[OK] v2 katakana, noise   call アンコリ点灯中です。まだ近づかないでください。  [key: アンコリ]  ->  heard: アンコリ検討中です。まだ近づかないでください。
+[OK] v2 katakana, noise   call ドアサイドの車イス、先に降ろしてください。  [key: ドアサイド]  ->  heard: ドアサイドの車椅子、先に下ろしてください。
+[OK] v2 katakana, noise   call コネクションバゲージは、別のカートに分けてください。  [key: コネクションバゲージ]  ->  heard: コネクションバゲージは別のカードに分けてください。
+[MISS] v2 katakana, noise   call B/Pは最後に積んでください。  [key: ビーピー]  ->  heard: DTは最後に積んでください。
+[OK] v2 katakana, noise   call リメイン、何個ですか？  [key: リメイン]  ->  heard: リメイン残固ですか?
+[MISS] v2 katakana, noise   call スポット変更です。12番に回ってください。  [key: スポット]  ->  heard: ストット変更です。12番に回ってください。
+[MISS] v2 katakana, noise   call クルー、ショーアップしました。  [key: ショーアップ]  ->  heard: クルー省アップしました。
